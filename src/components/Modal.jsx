@@ -19,6 +19,7 @@ const Modal = forwardRef(({ isEdit = false, item }, ref) => {
   const handleClose = () => {
     dialogRef.current.close();
   };
+
   const handleSubmit = (event) => {
     const formData = new FormData(event.target);
     event.preventDefault();
@@ -43,7 +44,7 @@ const Modal = forwardRef(({ isEdit = false, item }, ref) => {
 
     dialogRef.current.close();
 
-    // alert('todo added')
+    
   };
 
   return createPortal(

@@ -18,7 +18,7 @@ const FILTERS = [
 function App() {
   const TodoCtx = useContext(TodoContext);
   const [clickedTabID, setClickedTabID] = useState(1);
-  const ModalRef=useRef();
+  const ModalRef = useRef();
 
   const handleClick = (id) => {
     setClickedTabID(() => id);
@@ -37,33 +37,63 @@ function App() {
   }, [TodoCtx.Todos, clickedTabID]);
 
   const handleClear = () => {
-    const isCleared=TodoCtx.removeCompleted();
-    return isCleared?alert('All completed Tasks has been CLEARED!!'):alert('cannot clear completed Tasks!!')
+    const isCleared = TodoCtx.removeCompleted();
+    return isCleared
+      ? alert("All completed Tasks has been CLEARED!!")
+      : alert("cannot clear completed Tasks!!");
   };
   return (
     <>
-      <div className=" w-full h-screen pt-10 bg-gray-950 text-white ">
-        <div className="w-[60%] m-auto ">
-          <Header modalRef={ModalRef}></Header>
+      <div className="w-full h-screen pt-10 bg-gray-950 text-white">
+        <div
+          className="w-[60%] m-auto 
+                  max-md:w-[80%] 
+                  max-sm:w-[95%]"
+        >
+          <Header modalRef={ModalRef} />
+
           <Input
             disabled
             id="Todo-input"
             placeholder="What needs to be done?"
-            className="outline-none border-[0.5px] rounded-md p-3 border-gray-500 w-[95%] mt-5 mx-5"
-            type={"text"}
-          ></Input>
+            className="
+        outline-none 
+        border-[0.5px] 
+        rounded-md 
+        p-3 
+        border-gray-500 
+        w-[95%] 
+        mt-5 
+        mx-5
+        max-sm:w-full 
+        max-sm:mx-0
+      "
+            type="text"
+          />
+
           <Tabs
             filters={FILTERS}
             clickedTabID={clickedTabID}
             handleClick={handleClick}
-          ></Tabs>
-          <ItemList Todos={TodosFilterd}></ItemList>
+          />
+
+          <ItemList Todos={TodosFilterd} />
+
           {clickedTabID == 4 && (
-            <button onClick={handleClear} className="mt-4 mx-5  px-5 py-2 rounded-xl bg-red-700 uppercase  text-md font-bold hover:bg-red-900">
+            <button
+              onClick={handleClear}
+              className="
+          mt-4 mx-5 px-5 py-2 rounded-xl bg-red-700 
+          uppercase text-md font-bold hover:bg-red-900
+          max-sm:w-full 
+          max-sm:mx-0
+        "
+            >
               clear
             </button>
           )}
-          <Modal ref={ModalRef}></Modal>
+
+          <Modal ref={ModalRef} />
         </div>
       </div>
     </>

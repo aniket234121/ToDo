@@ -1,5 +1,6 @@
-import { createContext, useReducer } from "react";
-
+import { createContext, useEffect, useReducer } from "react";
+// import { getFromLocal } from "../utils/util";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 export const TodoContext = createContext({
   Todos: [],
   addTodo: () => {},
@@ -66,50 +67,14 @@ export const TodoContextProvider = ({ children }) => {
     }
   }
 
+  const [storedTodos, setStoredTodos] = useLocalStorage("todos", []);
+
   const [TodoState, dispatch] = useReducer(TodoReducer, {
-    Todos: [
-      {
-        id: 1,
-        text: "Buy groceries",
-        completed: false,
-        createdAt: "01:11:2025",
-        updatedAt: "01:11:2025",
-        priority: "medium",
-      },
-      {
-        id: 2,
-        text: "Finish React project",
-        completed: false,
-        createdAt: "02:11:2025",
-        updatedAt: "02:11:2025",
-        priority: "high",
-      },
-      {
-        id: 3,
-        text: "Read a book",
-        completed: true,
-        createdAt: "03:11:2025",
-        updatedAt: "15:11:2025",
-        priority: "low",
-      },
-      {
-        id: 4,
-        text: "Exercise for 30 mins",
-        completed: false,
-        createdAt: "04:11:2025",
-        updatedAt: "04:11:2025",
-        priority: "medium",
-      },
-      {
-        id: 5,
-        text: "Plan weekend trip",
-        completed: false,
-        createdAt: "05:11:2025",
-        updatedAt: "05:11:2025",
-        priority: "low",
-      },
-    ],
+    Todos: storedTodos,
   });
+  useEffect(() => {
+    setStoredTodos(() => TodoState.Todos);
+  }, [TodoState.Todos, setStoredTodos]);
 
   function handleAddTodo(todo) {
     dispatch({ type: "ADD_TODO", payload: todo });
@@ -124,7 +89,7 @@ export const TodoContextProvider = ({ children }) => {
   }
   function handleRemoveCompleted() {
     dispatch({ type: "REMOVE_COMPLETED" });
-    return true
+    return true;
   }
 
   const ctxValue = {
