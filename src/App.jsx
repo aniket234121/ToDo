@@ -1,10 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import Tabs from "./components/Tabs";
 import ItemList from "./components/ItemList";
 import { TodoContext } from "./store/TodoContext";
 import { useMemo } from "react";
+import Modal from "./components/Modal";
 import "./app.css";
 
 const FILTERS = [
@@ -17,6 +18,7 @@ const FILTERS = [
 function App() {
   const TodoCtx = useContext(TodoContext);
   const [clickedTabID, setClickedTabID] = useState(1);
+  const ModalRef=useRef();
 
   const handleClick = (id) => {
     setClickedTabID(() => id);
@@ -42,7 +44,7 @@ function App() {
     <>
       <div className=" w-full h-screen pt-10 bg-gray-950 text-white ">
         <div className="w-[60%] m-auto ">
-          <Header></Header>
+          <Header modalRef={ModalRef}></Header>
           <Input
             disabled
             id="Todo-input"
@@ -61,6 +63,7 @@ function App() {
               clear
             </button>
           )}
+          <Modal ref={ModalRef}></Modal>
         </div>
       </div>
     </>
